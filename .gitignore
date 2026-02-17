@@ -1,6 +1,7 @@
 # Compiled object files, libraries, and executables
 *.o
 *.exe
+__pycache__/
 main
 *.so
 *.dll
