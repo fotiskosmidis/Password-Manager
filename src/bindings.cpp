@@ -26,10 +26,8 @@ PYBIND11_MODULE(bindings,m)
 
         // func.h bindings
         m.def("loadAccounts", &loadAccounts);
-        m.def("addAccount", &addAccount);
-        m.def("removeAccount", &removeAccount);
+        m.def("verifyAccount", &verifyAccount);
         m.def("getAccount", &getAccount);
-        m.def("updateAccount", &updateAccount);
         m.def("saveAccounts", &saveAccounts);
 
         // security.h bindings

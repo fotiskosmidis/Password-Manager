@@ -47,60 +47,42 @@ vector<Account> loadAccounts(const string& key)
         return accounts;
 }
 
-bool addAccount(const Account& account, vector<Account>& accounts)
+int verifyAccount(const Account& account, vector<Account>& accounts)
 {
+        // Check if the email is less than 100 characters and does not contain (" ")
+        if (account.getEmail().length() > 100 || account.getEmail().find('"') != string::npos)
+        {
+                return 2;// Invalid email
+        }
+
+        // Check if the password is less than 100 characters and does not contain (" ")
+        if (account.getPassword().length() > 100 || account.getPassword().find('"') != string::npos)
+        {
+                return 3;// Invalid password
+        }
+
+        // Check if the company is less than 100 characters and does not contain (" ")
+        if (account.getCompany().length() > 100 || account.getCompany().find('"') != string::npos)
+        {
+                return 4;// Invalid company
+        }
+
+        // Check if the name is less than 100 characters and does not contain (" ")
+        if (account.getName().length() > 100 || account.getName().find('"') != string::npos)
+        {
+                return 5;// Invalid name
+        }
+
         // Check if the account already exists based on email and company
         for (Account& acc : accounts)
         {
                 if (acc.getEmail() == account.getEmail() && acc.getCompany() == account.getCompany())
                 {
-                        cout << "Account already exists!" << endl;
-                        return false;
+                        return 1;// Account already exists
                 }
         }
 
-        // Check if the email is less than 100 characters and does not contain (" ")
-        if (account.getEmail().length() > 100 || account.getEmail().find('"') != string::npos)
-        {
-                cout << "Invalid email!" << endl;
-                return false;
-        }
-
-        // Check if the password is less than 100 characters and does not contain (" ")
-        if (account.getPassword().length() > 100 || account.getPassword().find('"') != string::npos)
-        {                cout << "Invalid password!" << endl;
-                return false;
-        }
-
-        // Check if the company is less than 100 characters and does not contain (" ")
-        if (account.getCompany().length() > 100 || account.getCompany().find('"') != string::npos)
-        {                cout << "Invalid company!" << endl;
-                return false;
-        }
-
-        // Check if the name is less than 100 characters and does not contain (" ")
-        if (account.getName().length() > 100 || account.getName().find('"') != string::npos)
-        {                cout << "Invalid name!" << endl;
-                return false;
-        }
-
-
-        accounts.push_back(account);
-        return true;
-}
-
-void removeAccount(string email, string company, vector<Account>& accounts)
-{
-        // Remove the account with the given email and company
-        for (auto it = accounts.begin(); it != accounts.end(); ++it)
-        {
-                if (it->getEmail() == email && it->getCompany() == company)
-                {
-                        accounts.erase(it);
-                        cout << "Account removed successfully!" << endl;
-                        return;
-                }
-        }
+        return 0;// Account is valid
 }
 
 Account getAccount(string email, string company, vector<Account>& accounts)
@@ -116,53 +98,6 @@ Account getAccount(string email, string company, vector<Account>& accounts)
 
         // Return an empty account if not found
         return  Account("", "", "");
-}
-
-bool updateAccount(Account& account, vector<Account>& accounts)
-{
-        // Check if the company is less than 100 characters and does not contain (" ")
-        if (account.getCompany().length() > 100 || account.getCompany().find('"') != string::npos)
-        {
-                cout << "Invalid company!" << endl;
-                return false;
-        }
-
-        // Check if the email is less than 100 characters and does not contain (" ")
-        if (account.getEmail().length() > 100 || account.getEmail().find('"') != string::npos)
-        {
-                cout << "Invalid email!" << endl;
-                return false;
-        }
-
-        // Check if the password is less than 100 characters and does not contain (" ")
-        if (account.getPassword().length() > 100 || account.getPassword().find('"') != string::npos)
-        {
-                cout << "Invalid password!" << endl;
-                return false;
-        }
-
-        // Check if the name is less than 100 characters and does not contain (" ")
-        if (account.getName().length() > 100 || account.getName().find('"') != string::npos)
-        {
-                cout << "Invalid name!" << endl;
-                return false;
-        }
-
-        for (Account& acc : accounts)
-        {
-                if (acc.getEmail() == account.getEmail() && acc.getCompany() == account.getCompany())
-                {
-                        acc.setCompany(account.getCompany());
-                        acc.setEmail(account.getEmail());
-                        acc.setPassword(account.getPassword());
-                        acc.setName(account.getName());
-                        cout << "Account updated successfully!" << endl;
-                        return true;
-                }
-        }
-
-        cout << "Account not found!" << endl;
-        return false;
 }
 
 void saveAccounts(const vector<Account>& accounts, const string& key)

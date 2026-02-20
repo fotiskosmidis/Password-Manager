@@ -6,6 +6,7 @@ import bindings  # type: ignore
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
+from frontEnd.mainWindow import mainWindow
 
 backgroundColor = "#2c0a0a"
 buttonColor = "#570202"
@@ -32,14 +33,13 @@ def loginWindow():
                 return True # Otherwise, accept the input by returning True
         validateCommand = root.register(capEntry)
 
-        passwordEntry = tk.Entry(frame, show="*", font=("Arial", 18), validate="key", validatecommand=(validateCommand, "%P")) # Create an entry widget for the password input, with the characters hidden and validation enabled
+        passwordEntry = tk.Entry(frame, show="*", font=("Arial", 18), validate="key", validatecommand=(validateCommand, "%P"),bg="#1a0b0b", fg="white", insertbackground="white") # Create an entry widget for the password input, with the characters hidden and validation enabled
         passwordEntry.pack(pady=10) # Add some vertical padding around the entry widget
 
         def submitPassword(password, root):
                 if bindings.validatePin(password): # Check if the entered password matches the expected value
                         root.destroy()
-                        #TODO! here to open the menu window
-
+                        mainWindow()
                 else:
                         messagebox.showerror("Login Failed", "Incorrect password. Please try again.") # If it doesn't, show an error message
 

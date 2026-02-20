@@ -15,6 +15,3 @@ else:
         else:
                 # error happened while creating the pin, close the program
                 exit()
-
-
-

@@ -29,13 +29,13 @@ def createPasswdWindow():
         createPasswdLabel = tk.Label(frame, text="Create a new password", bg=backgroundColor, fg="white", font=("Arial", 18))
         createPasswdLabel.pack(pady=10)
 
-        createPasswdEntry = tk.Entry(frame, show="*", font=("Arial", 18), validate="key", validatecommand=(validateCommand, "%P"))
+        createPasswdEntry = tk.Entry(frame, show="*", font=("Arial", 18), validate="key", validatecommand=(validateCommand, "%P"),bg="#1a0b0b", fg="white", insertbackground="white")
         createPasswdEntry.pack(pady=10)
 
         createPasswdLabel2 = tk.Label(frame, text="Enter the same password", bg=backgroundColor, fg="white", font=("Arial", 18))
         createPasswdLabel2.pack(pady=10)
 
-        createPasswdEntry2 = tk.Entry(frame, show="*", font=("Arial", 18), validate="key", validatecommand=(validateCommand, "%P"))
+        createPasswdEntry2 = tk.Entry(frame, show="*", font=("Arial", 18), validate="key", validatecommand=(validateCommand, "%P"),bg="#1a0b0b", fg="white", insertbackground="white")
         createPasswdEntry2.pack(pady=10)
 
         def submitPassword(password, password2, root):
