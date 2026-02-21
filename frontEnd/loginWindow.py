@@ -7,6 +7,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from frontEnd.mainWindow import mainWindow
+from frontEnd.datapath import db_dir
 
 backgroundColor = "#2c0a0a"
 buttonColor = "#570202"
@@ -37,7 +38,7 @@ def loginWindow():
         passwordEntry.pack(pady=10) # Add some vertical padding around the entry widget
 
         def submitPassword(password, root):
-                if bindings.validatePin(password): # Check if the entered password matches the expected value
+                if bindings.validatePin(password, str(db_dir / "settings.json")): # Check if the entered password matches the expected value
                         root.destroy()
                         mainWindow()
                 else:

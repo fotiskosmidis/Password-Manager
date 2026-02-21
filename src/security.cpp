@@ -15,14 +15,14 @@
 
 using namespace std;
 
-string createKey(const string& passwd) 
+string createKey(const string& passwd, const string& filePath)
 {
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256((unsigned char*)passwd.c_str(), passwd.size(), hash);
         string key= binaryToHex(hash, SHA256_DIGEST_LENGTH);
         
         // Create a JSON file to store the key
-        ofstream keyFile("DBfiles/settings.json");
+        ofstream keyFile(filePath);
         string jsonString = R"({"key": ")" + key + R"("})";
         keyFile << jsonString;
         keyFile.close();
@@ -151,11 +151,11 @@ void handleErrors()
         abort();
 }
 
-bool validatePin(const string& pin)
+bool validatePin(const string& pin, const string& filepath)
 {
         bool flag = false;
 
-        string key = getKey();
+        string key = getKey(filepath);
         // Hash the provided PIN and compare
         unsigned char hash[SHA256_DIGEST_LENGTH];
         SHA256((unsigned char*)pin.c_str(), pin.size(), hash);
@@ -166,9 +166,9 @@ bool validatePin(const string& pin)
         return flag;
 }
 
-string getKey()
+string getKey(const string& filePath)
 {
-        ifstream keyFile("DBfiles/settings.json");
+        ifstream keyFile(filePath);
         string key;
         if (keyFile.is_open())
         {

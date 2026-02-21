@@ -9,13 +9,13 @@
 
 using json = nlohmann::json;
 
-vector<Account> loadAccounts(const string& key)
+vector<Account> loadAccounts(const string& key,const string& filePath)
 {
         // Create json file if it does not exist
-        ifstream in("DBfiles/accounts.json");
+        ifstream in(filePath);
         if (!in.is_open())
         {
-                ofstream out("DBfiles/accounts.json");
+                ofstream out(filePath);
                 out.close();
                 return vector<Account>();
         }
@@ -100,7 +100,7 @@ Account getAccount(string email, string company, vector<Account>& accounts)
         return  Account("", "", "");
 }
 
-void saveAccounts(const vector<Account>& accounts, const string& key)
+void saveAccounts(const vector<Account>& accounts, const string& key, const string& filePath)
 {
         // Save accounts to json file
         json j;
@@ -112,7 +112,7 @@ void saveAccounts(const vector<Account>& accounts, const string& key)
                 j[i]["name"] = encryptString(accounts[i].getName(), key);
         }
 
-        ofstream out("DBfiles/accounts.json");
+        ofstream out(filePath);
         out << j.dump(4);
         out.close();
 }

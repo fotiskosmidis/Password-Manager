@@ -6,7 +6,7 @@
 using namespace std;
 
 // Hashing the application password using SHA-256 and making it the key
-string createKey(const string& passwd);
+string createKey(const string& passwd, const string& filePath);
 
 // Encrypting the string using the key and AES-256 encryption
 string encryptString(const string& text, const string& key);
@@ -24,9 +24,9 @@ unsigned char* hexToBinary(const string& hex);
 void handleErrors();
 
 // Pin validation function
-bool validatePin(const string& pin);
+bool validatePin(const string& pin, const string& filePath);
 
 // Getting the key from the settings file
-string getKey();
+string getKey(const string& filePath);
 
 #endif // SECURITY_H

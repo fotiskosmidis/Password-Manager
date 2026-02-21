@@ -7,6 +7,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 import frontEnd.addWindow as addWindow
+import frontEnd.displayWindow as displayWindow
+from frontEnd.datapath import db_dir
 
 mainFrameColor = "#15011a"
 backgroundColor = "#2c0a0a"
@@ -14,9 +16,9 @@ buttonColor = "#570202"
 
 def mainWindow():
         root = tk.Tk()
-        
-        key = bindings.getKey()
-        accounts = bindings.loadAccounts(key)
+
+        key = bindings.getKey(str(db_dir / "settings.json"))
+        accounts = bindings.loadAccounts(key, str(db_dir / "accounts.json"))
 
         dpi = root.winfo_fpixels('1i') # Get the screen's DPI (dots per inch) of the screen
         scaling_factor = dpi / 72 # Calculate the scaling factor based on the DPI
@@ -79,12 +81,9 @@ def mainWindow():
 
         panelUpdate(accounts, frame)
 
-        
-        
-
         # Save accounts when the window is closed
         def onClose():
-                bindings.saveAccounts(accounts, key)
+                bindings.saveAccounts(accounts, key, str(db_dir / "accounts.json"))
                 root.destroy()
         root.protocol("WM_DELETE_WINDOW", onClose)
 
@@ -107,7 +106,14 @@ def panelUpdate(accounts, frame):
                         rows += 1
                 accountLabel = tk.Label(frame, text=f"{account.getCompany()}\n{account.getEmail()}", bg=buttonColor, fg="white", font=("Arial", 18),cursor="hand2",width=18, height=5) # Create a label for the account name
                 accountLabel.grid(row=rows, column=cols, padx=10, pady=10) # Place the label in the grid with some padding
+                accountLabel.bind("<Button-1>", lambda event, acc=account: onLabelClick(acc))
 
+        def onLabelClick(account):
+                displayWindow.displayWindow(accounts, account, lambda: panelUpdate( accounts, frame))
+                
+
+
+        # Update the scroll region of the canvas to fit the new labels
         frame.update_idletasks()
         canvas = frame.master  # canvas is the parent of frame
         canvas.configure(scrollregion=canvas.bbox("all"))
